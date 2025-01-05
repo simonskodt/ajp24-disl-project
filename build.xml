@@ -1,0 +1,34 @@
+<project name="DislProject" default="build" basedir=".">
+
+	<path id="profiler.classpath">
+		<fileset dir="lib" includes="*.jar" />
+	</path>
+
+	<target name="compile-profiler">
+		<mkdir dir="bin-profiler" />
+		<javac includeantruntime="false" destdir="bin-profiler" srcdir="src-profiler" debug="false" classpathref="profiler.classpath" />
+	</target>
+
+	<target name="build-profiler" depends="compile-profiler">
+		<mkdir dir="build"/>
+		<jar destfile="build/profiler.jar" basedir="bin-profiler">
+			<manifest>
+                <attribute name="DiSL-Classes" value="${dislclass}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="build-app">
+		<mkdir dir="build"/>
+		<jar destfile="build/app.jar" basedir="bin-app" />
+	</target>
+
+ <target name="build" depends="build-profiler,build-app" />
+
+	<target name="clean">
+		<delete dir="bin-profiler" />
+		<delete dir="build" />
+		<delete dir="dump" />
+	</target>
+
+</project>
