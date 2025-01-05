@@ -1,6 +1,10 @@
 # Advanced Java Project 24: DiSL Project
 
-In this project, we are a group of four students implementing different profilers using DiSL (Domain Specific Language for Java Bytecode Instrumentation). DiSL is a bytecode instrumentation framework for the JVM, and allows us to: 
+In this project, we are a group of four students implementing different profilers using DiSL (Domain Specific Language for Java Bytecode Instrumentation).
+
+## What is DiSL?
+
+DiSL is a bytecode instrumentation framework for the JVM, and allows us to: 
 
 1. have agents send classes (observed application) to the DiSL server
 2. the server instruments the code, and 
