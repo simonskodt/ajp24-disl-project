@@ -17,7 +17,7 @@ package ex1;
 
 public class Main {
     public static void main(String[] args) {
-			System.out.println("Application: Hello World!");
+		    System.out.println("Application: Hello World!");
     }   
 }
 ```
@@ -33,7 +33,7 @@ import ch.usi.dag.disl.marker.BodyMarker;
 public class Instrumentation {
     @Before(marker = BodyMarker.class)
     static void beforeEveryMethod() {
-      System.err.println("Instrumentation: A new method has been executed.");
+        System.err.println("Instrumentation: A new method has been executed.");
     }
 }
 ```
