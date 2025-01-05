@@ -14,7 +14,7 @@ public class Profiler {
         Runtime.getRuntime().addShutdownHook(new Thread(Profiler::printAtShutdown));
     }
 
-    public static void printAtShutdown() {
+    private static void printAtShutdown() {
         System.err.format("Reads from instance fields: %d\n" +
             "Writes to instance fields: %d\n" +
             "Unique static fields accessed: %d\n",
