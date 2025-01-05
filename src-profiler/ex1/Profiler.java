@@ -10,19 +10,16 @@ public class Profiler {
     public static LongAdder nInstanceFieldWrites = new LongAdder();
     public static Set<String> uniqueStaticFieldsAccessed = ConcurrentHashMap.newKeySet();
 
-    static class ShutdownThread extends Thread {
-	
-        public void run() {
-            System.err.format("Reads from instance fields: %d\n" +
-                "Writes to instance fields: %d\n" +
-                "Unique static fields accessed: %d\n",
-                nInstanceFieldReads.sum(),
-                nInstanceFieldWrites.sum(),
-                uniqueStaticFieldsAccessed.size());
-        }
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(Profiler::printAtShutdown));
     }
 
-    static {
-        Runtime.getRuntime().addShutdownHook(new ShutdownThread());
+    public static void printAtShutdown() {
+        System.err.format("Reads from instance fields: %d\n" +
+            "Writes to instance fields: %d\n" +
+            "Unique static fields accessed: %d\n",
+            nInstanceFieldReads.sum(),
+            nInstanceFieldWrites.sum(),
+            uniqueStaticFieldsAccessed.size());
     }
 }
