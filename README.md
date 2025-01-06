@@ -2,7 +2,7 @@
 
 In this project, we are a group of four students implementing different profilers using DiSL (Domain Specific Language for Java Bytecode Instrumentation).
 
-## What is DiSL?
+## What is DiSL
 
 DiSL is a bytecode instrumentation framework for the JVM, and allows us to: 
 
@@ -38,3 +38,20 @@ public class Instrumentation {
     }
 }
 ```
+
+## DiSL Properties
+
+- Based on aspect-oriented programming
+- Can instrument every method (of every class) that has associated bytecode instructions (no abstract or native methods)
+  - Thanks to:
+    - Load-time out-of-process instrumentation
+    - Dynamic bypass to avoid infinite recursion of instrumentation
+
+## How to Run DiSL
+
+1. Compile application and create JAR files in the build folder: `ant`
+    - `ant -Ddislclass=ex1.Instrumentation`
+2. Start the DiSL server: [`startDiSLServer.sh`](http://startDiSLServer.sh)
+3. Start the observed application: `runInstrumented.sh`
+    - `bash ./runInstrumented ex1.Main 2>.out.err`
+        - Redirect both the standard output and standard error to the same file.
