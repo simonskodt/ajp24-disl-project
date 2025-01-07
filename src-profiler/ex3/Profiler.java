@@ -38,12 +38,10 @@ public class Profiler {
         }
     }
 
-    public static void initilizeMonitor(long hashCode, String className) {
+    public static void updateMonitor(long hashCode, String className) {
         monitorMap.putIfAbsent(hashCode, new Monitor(className));
-    }
 
-    public static void updateMonitor(long hashCode) {
-        monitorMap.computeIfPresent(hashCode, (className, lockCount) -> {
+        monitorMap.computeIfPresent(hashCode, (cName, lockCount) -> {
             lockCount.nLockAcquisitions.increment();
             return lockCount;
         });
