@@ -22,11 +22,13 @@ public class Profiler {
     }
 
     private static void printAtShutdown() {
-        System.err.format("Length of the String array: %d\n", 
-            "String: to instance fields: %d\n" +
-            "Unique static fields accessed: %d\n",
-            nInstanceFieldReads.sum(),
-            nInstanceFieldWrites.sum(),
-            uniqueStaticFieldsAccessed.size());
+        System.err.println("Length of the String array: " + arrLength);
+        
+        for (var tuple : strTests) {
+            System.err.format("String: %s - Result: %s",
+                tuple.x,
+                tuple.y ? "Valid" : "Not valid"
+            );
+        }
     }
 }

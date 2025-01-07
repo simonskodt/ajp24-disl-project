@@ -1,12 +1,8 @@
 package ex6;
 
-import java.lang.constant.DynamicCallSiteDesc;
-
 import ch.usi.dag.disl.annotation.After;
-import ch.usi.dag.disl.annotation.Before;
 import ch.usi.dag.disl.dynamiccontext.DynamicContext;
 import ch.usi.dag.disl.marker.BytecodeMarker;
-import ch.usi.dag.disl.staticcontext.FieldAccessStaticContext;
 import ch.usi.dag.disl.staticcontext.MethodStaticContext;
 
 public class Instrumentation {
@@ -18,6 +14,8 @@ public class Instrumentation {
         if (!methodStaticContext.thisMethodName().equals("init")) {
             return;
         }
-        Profiler.arrLength = dynamicContext.getStackValue(0, int.class);;
+
+        System.err.println(dynamicContext.getStackValue(0, int.class));
+        // Profiler.arrLength = dynamicContext.getStackValue(0, int.class);
     }
 }
