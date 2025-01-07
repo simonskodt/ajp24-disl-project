@@ -15,9 +15,9 @@ public class Instrumentation {
         Profiler.updateMonitor(hashCode, className);
 
         // Obtain the DoubleCounter and FloatCounter
-        Object thisObject = dynamicContext.getStackValue(0, Object.class); // 0 is index for args+vars (this)
-        long hashCode2 = System.identityHashCode(thisObject);
-        String className2 = thisObject.getClass().getCanonicalName();
+        Object stackTop = dynamicContext.getStackValue(0, Object.class); // 0 is index for args+vars (this)
+        long hashCode2 = System.identityHashCode(stackTop);
+        String className2 = stackTop.getClass().getCanonicalName();
         Profiler.updateMonitor(hashCode2, className2);
     }
 }
