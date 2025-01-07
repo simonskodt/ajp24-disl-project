@@ -15,7 +15,6 @@ public class Instrumentation {
             return;
         }
 
-        System.err.println(dynamicContext.getStackValue(0, int.class));
-        // Profiler.arrLength = dynamicContext.getStackValue(0, int.class);
+        Profiler.arrLength = dynamicContext.getStackValue(0, int.class);
     }
 }

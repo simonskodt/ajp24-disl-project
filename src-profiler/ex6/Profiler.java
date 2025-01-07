@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Profiler {
 
-    static int arrLength;
-    static List<Tuple<String, Boolean>> strTests = new ArrayList<>();
+    public static int arrLength;
+    public static List<Tuple<String, Boolean>> strTests = new ArrayList<>();
 
     static class Tuple<X, Y> {
         final X x; // string representation
@@ -24,11 +24,11 @@ public class Profiler {
     private static void printAtShutdown() {
         System.err.println("Length of the String array: " + arrLength);
         
-        for (var tuple : strTests) {
-            System.err.format("String: %s - Result: %s",
-                tuple.x,
-                tuple.y ? "Valid" : "Not valid"
-            );
-        }
+        // for (var tuple : strTests) {
+        //     System.err.format("String: %s - Result: %s",
+        //         tuple.x,
+        //         tuple.y ? "Valid" : "Not valid"
+        //     );
+        // }
     }
 }
