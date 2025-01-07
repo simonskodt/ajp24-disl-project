@@ -26,10 +26,6 @@ public class Profiler {
             Long hashCode = entry.getKey();
             Monitor v = entry.getValue();
 
-            if (v.nLockAcquisitions.sum() == 0) {
-                continue;
-            }
-
             System.err.format("%d - %s - #Locks: %d\n",
                 hashCode,
                 v.className,
