@@ -1,0 +1,10 @@
+Thread: Eärnil II - #static: 140 - #special: 7 - #virtual: 70 - #dynamic: 7
+Thread: Telumehtar Umbardacil - #static: 60 - #special: 3 - #virtual: 30 - #dynamic: 3
+Thread: Elessar - #static: 180 - #special: 9 - #virtual: 90 - #dynamic: 9
+Thread: Tarondor - #static: 40 - #special: 2 - #virtual: 20 - #dynamic: 2
+Thread: Calimehtar - #static: 100 - #special: 5 - #virtual: 50 - #dynamic: 5
+Thread: Eärnur - #static: 160 - #special: 8 - #virtual: 80 - #dynamic: 8
+Thread: Telemnar - #static: 20 - #special: 1 - #virtual: 10 - #dynamic: 1
+Thread: main - #static: 10 - #special: 20 - #virtual: 0 - #dynamic: 0
+Thread: Narmacil II - #static: 80 - #special: 4 - #virtual: 40 - #dynamic: 4
+Thread: Ondoher - #static: 120 - #special: 6 - #virtual: 60 - #dynamic: 6

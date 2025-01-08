@@ -1,0 +1,2 @@
+Exception class: ex4.MainThread$OddException - occurrences: 10 - avg calling context depth: 16.90 
+Exception class: ex4.MainThread$EvenException - occurrences: 9 - avg calling context depth: 16.22 
