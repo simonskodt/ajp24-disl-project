@@ -1,0 +1,11 @@
+449241280 - ex3.MainThread - #Locks: 32
+1841085258 - ex3.MainThread - #Locks: 28
+2146932240 - ex3.MainThread - #Locks: 4
+1983321676 - ex3.MainThread - #Locks: 20
+2147407029 - ex3.MainThread - #Locks: 16
+107906498 - ex3.MainThread - #Locks: 36
+756905888 - ex3.MainThread - #Locks: 8
+1878954867 - ex3.MainThread - #Locks: 24
+1384183358 - ex3.MainThread - #Locks: 12
+272534448 - ex3.MainThread.DoubleCounter - #Locks: 90
+470817039 - ex3.MainThread.FloatCounter - #Locks: 90
