@@ -1,58 +1,54 @@
 package ex2;
 
+import ch.usi.dag.disl.annotation.After;
 import ch.usi.dag.disl.annotation.Before;
+import ch.usi.dag.disl.annotation.ThreadLocal;
+import ch.usi.dag.disl.dynamiccontext.DynamicContext;
+import ch.usi.dag.disl.marker.BodyMarker;
 import ch.usi.dag.disl.marker.BytecodeMarker;
 
 
 public class Instrumentation {
 
-    // @ThreadLocal
-    // private static long nInvokeStatic;
+    @ThreadLocal
+    private static long nInvokeStatic;
 
-    // @ThreadLocal
-    // private static long nInvokeSpecial;
+    @ThreadLocal
+    private static long nInvokeSpecial;
     
-    // @ThreadLocal
-    // private static long nInvokeVirtual;
+    @ThreadLocal
+    private static long nInvokeVirtual;
 
-    // @ThreadLocal
-    // private static long nInvokeDynamic;
+    @ThreadLocal
+    private static long nInvokeDynamic;
 
-    @Before(marker = BytecodeMarker.class, args="invokestatic", scope="ex2.MainThread.*")
+    private static final String SCOPE = "ex2.MainThread.*";
+
+    @Before(marker = BytecodeMarker.class, args="invokestatic", scope=SCOPE)
     static void onInvokeStatic() {
-        String threadName = Thread.currentThread().getName();
-        // Profiler.putInThreadMap(threadName, 0);
-        // nInvokeStatic++;
-
-        Profiler.incrementCounter(threadName, "static");
+        nInvokeStatic++;
     }
 
-    @Before(marker = BytecodeMarker.class, args="invokespecial", scope="ex2.MainThread.*")
+    @Before(marker = BytecodeMarker.class, args="invokespecial", scope=SCOPE)
     static void onInvokeSpecial() {
-        // nInvokeSpecial++;
-        String threadName = Thread.currentThread().getName();
-        Profiler.incrementCounter(threadName, "special");
+        nInvokeSpecial++;
     }
 
-    @Before(marker = BytecodeMarker.class, args="invokevirtual", scope="ex2.MainThread.*")
+    @Before(marker = BytecodeMarker.class, args="invokevirtual", scope=SCOPE)
     static void onInvokeVirtual() {
-        // nInvokeVirtual++;
-        String threadName = Thread.currentThread().getName();
-        Profiler.incrementCounter(threadName, "virtual");
+        nInvokeVirtual++;
     }
 
-    @Before(marker = BytecodeMarker.class, args="invokedynamic", scope="ex2.MainThread.*")
+    @Before(marker = BytecodeMarker.class, args="invokedynamic", scope=SCOPE)
     static void onInvokeDinamic() {
-        // nInvokeDynamic++;
-        String threadName = Thread.currentThread().getName();
-        Profiler.incrementCounter(threadName, "dynamic");
+        nInvokeDynamic++;
     }
 
-    // @After(marker = BasicBlockMarker.class, scope="void run()") //guard=IsThreadGuard.class)
-    // static void onThreadExit(DynamicContext dynamicContext) {
-    //     if (dynamicContext.getThis() instanceof Thread) {
-    //         String threadName = Thread.currentThread().getName();
-	//         Profiler.registerThreadEnd(threadName);
-    //     }
-    // }
+    @After(marker = BodyMarker.class, scope="ex2.MainThread.run")
+    static void onThreadExit(DynamicContext dynamicContext) {
+        if (dynamicContext.getThis() instanceof Thread) {
+            final String threadName = Thread.currentThread().getName();
+	        Profiler.registerThreadEnd(threadName);
+        }
+    }
 }
