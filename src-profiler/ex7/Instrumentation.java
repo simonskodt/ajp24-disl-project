@@ -8,7 +8,6 @@ import ch.usi.dag.disl.marker.BytecodeMarker;
 
 public class Instrumentation {
     
-    // Update to include all methods
     private static final String SCOPE = "ex7.MainThread.*";
 
     @ThreadLocal
