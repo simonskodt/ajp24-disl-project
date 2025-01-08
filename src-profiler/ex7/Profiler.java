@@ -1,11 +1,11 @@
 package ex7;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Objects;
 
 public class Profiler {
 
-    // public static ConcurrentHashMap<Tuple, Integer> allocations = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<String, Integer> allocations = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<Tuple, Integer> allocations = new ConcurrentHashMap<>();
 
     public static class Tuple {
         public final String x;
@@ -22,10 +22,14 @@ public class Profiler {
         }
 
         @Override
+        public int hashCode() {
+            return Objects.hash(this.x, this.y);
+        }
+
+        @Override
         public boolean equals(Object o) {
-            if (!(o instanceof Tuple)) {
-                return false;
-            }
+            if (this == o) return true;
+            if (!(o instanceof Tuple)) return false;
 
             Tuple t = (Tuple) o;
             return this.x.equals(t.x) && this.y == t.y;
@@ -40,14 +44,11 @@ public class Profiler {
 	
         public void run() {
             for (var entry : allocations.entrySet()) {
-                // Tuple key = entry.getKey();
-                String key = entry.getKey();
+                Tuple key = entry.getKey();
                 
-                // System.err.format("%s, %d: %d allocations\n", 
-                //     key.x, key.y, entry.getValue()
-                // );
-                System.err.format("%s: %d allocations\n",
-                key, entry.getValue());
+                System.err.format("%s, %d: %d allocations\n", 
+                    key.x, key.y, entry.getValue()
+                );
             }
         }
     }
