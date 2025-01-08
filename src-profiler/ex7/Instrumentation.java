@@ -1,5 +1,7 @@
 package ex7;
 
+import java.util.List;
+
 import ch.usi.dag.disl.annotation.After;
 import ch.usi.dag.disl.annotation.Before;
 import ch.usi.dag.disl.annotation.ThreadLocal;
@@ -29,4 +31,20 @@ public class Instrumentation {
             Profiler.registerArrayAllocation(componentType, arrLength);
         }
     }
+
+    @After(marker=BytecodeMarker.class , args="multianewarray", scope=SCOPE)
+    static void findMultiArrayLength(DynamicContext dynamicContext) {
+        Object array = dynamicContext.getStackValue(0, Object.class);
+        if (array != null && array.getClass().isArray()) {
+            List<Integer> dims = Profiler.getArrayDimension(array);
+
+            // String res = "";
+            // for (int i = 0; i < dims.size(); i++) {
+            //     res += dims.get(i) + " ";
+            // }
+            // System.out.println(res);
+        }
+    }
+
+    
 }

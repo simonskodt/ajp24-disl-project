@@ -5,6 +5,11 @@ import java.util.Map;
 import java.util.Comparator;
 
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Profiler {
 
     private static ConcurrentHashMap<Tuple<String, Integer>, Integer> allocations = new ConcurrentHashMap<>();
@@ -24,6 +29,7 @@ public class Profiler {
 
         @Override
         public boolean equals(Object o) {
+            if (this == o) return true;
             if (!(o instanceof Tuple)) return false;
             Tuple tuple = (Tuple) o;
             return this.x.equals(tuple.x) && this.y.equals(tuple.y);
@@ -65,7 +71,47 @@ public class Profiler {
         allocations.computeIfPresent(key, (k, v) -> v + 1);
     }
 
-    public static void registerThreadEnd() {
-        // No additional actions needed for thread end in this context
+    public static List<Integer> getArrayDimension(Object arr) {
+        // int[] dims = new int[4];
+        List<Integer> dims = new ArrayList<>();
+        return getArrayDimensionRec(arr, dims, 0);
     }
+
+    public static List<Integer> getArrayDimensionRec(Object arr, List<Integer> dims, int idx) {
+        if (arr == null || !arr.getClass().isArray() || idx >= 4) return dims;
+
+        dims.add(Array.getLength(arr));
+
+        return getArrayDimensionRec(Array.get(arr, 0), dims, idx+1);
+    }
+
+    // public static class ArrayDimension {
+    //     private int[] dims;
+
+    //     public ArrayDimension(int d1) {
+    //         dims = new int[1];
+    //         dims[0] = d1;
+    //     }
+
+    //     public ArrayDimension(int d1, int d2) {
+    //         dims = new int[2];
+    //         dims[0] = d1;
+    //         dims[1] = d2;
+    //     }
+
+    //     public ArrayDimension(int d1, int d2, int d3) {
+    //         dims = new int[3];
+    //         dims[0] = d1;
+    //         dims[1] = d2;
+    //         dims[2] = d3;
+    //     }
+
+    //     public ArrayDimension(int d1, int d2, int d3, int d4) {
+    //         dims = new int[3];
+    //         dims[0] = d1;
+    //         dims[1] = d2;
+    //         dims[2] = d3;
+    //         dims[3] = d4;
+    //     }
+    // }
 }
