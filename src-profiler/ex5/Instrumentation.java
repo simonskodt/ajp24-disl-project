@@ -3,7 +3,7 @@ package ex5;
 import ch.usi.dag.disl.annotation.Before;
 import ch.usi.dag.disl.dynamiccontext.DynamicContext;
 import ch.usi.dag.disl.marker.BytecodeMarker;
-import ch.usi.dag.disl.staticcontext.MethodStaticContext;
+import ch.usi.dag.disl.marker.BytecodeMarker;
 
 public class Instrumentation {
 
