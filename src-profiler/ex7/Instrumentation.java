@@ -37,14 +37,8 @@ public class Instrumentation {
         Object array = dynamicContext.getStackValue(0, Object.class);
         if (array != null && array.getClass().isArray()) {
             List<Integer> dims = Profiler.getArrayDimension(array);
-
-            // String res = "";
-            // for (int i = 0; i < dims.size(); i++) {
-            //     res += dims.get(i) + " ";
-            // }
-            // System.out.println(res);
+            componentType = array.getClass().getComponentType().getName();
+            Profiler.registerArrayAllocation(componentType, dims);
         }
     }
-
-    
 }
