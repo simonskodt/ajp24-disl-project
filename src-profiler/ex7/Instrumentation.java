@@ -9,8 +9,6 @@ import ch.usi.dag.disl.dynamiccontext.DynamicContext;
 import ch.usi.dag.disl.marker.BytecodeMarker;
 
 public class Instrumentation {
-    
-    private static final String SCOPE = "ex7.MainThread.*";
 
     @ThreadLocal
     private static int arrLength;
@@ -18,12 +16,12 @@ public class Instrumentation {
     @ThreadLocal
     private static String componentType;
 
-    @Before(marker=BytecodeMarker.class , args="newarray, anewarray", scope=SCOPE)
+    @Before(marker=BytecodeMarker.class , args="newarray, anewarray", scope="ex7.MainThread.*")
     static void findArrayLength(DynamicContext dynamicContext) {
         arrLength = dynamicContext.getStackValue(0, int.class);
     }
 
-    @After(marker=BytecodeMarker.class, args="newarray, anewarray", scope=SCOPE)
+    @After(marker=BytecodeMarker.class, args="newarray, anewarray", scope="ex7.MainThread.*")
     static void findArrayType(DynamicContext dynamicContext) {
         Object array = dynamicContext.getStackValue(0, Object.class);
         if (array != null && array.getClass().isArray()) {
@@ -32,7 +30,7 @@ public class Instrumentation {
         }
     }
 
-    @After(marker=BytecodeMarker.class , args="multianewarray", scope=SCOPE)
+    @After(marker=BytecodeMarker.class , args="multianewarray", scope="ex7.MainThread.*")
     static void findMultiArrayLength(DynamicContext dynamicContext) {
         Object array = dynamicContext.getStackValue(0, Object.class);
         if (array != null && array.getClass().isArray()) {
