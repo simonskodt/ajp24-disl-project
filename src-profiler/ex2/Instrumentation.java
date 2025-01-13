@@ -22,24 +22,22 @@ public class Instrumentation {
     @ThreadLocal
     private static long nInvokeDynamic;
 
-    private static final String SCOPE = "*";
-
-    @Before(marker = BytecodeMarker.class, args="invokestatic", scope=SCOPE)
+    @Before(marker = BytecodeMarker.class, args="invokestatic")
     static void onInvokeStatic() {
         nInvokeStatic++;
     }
 
-    @Before(marker = BytecodeMarker.class, args="invokespecial", scope=SCOPE)
+    @Before(marker = BytecodeMarker.class, args="invokespecial")
     static void onInvokeSpecial() {
         nInvokeSpecial++;
     }
 
-    @Before(marker = BytecodeMarker.class, args="invokevirtual", scope=SCOPE)
+    @Before(marker = BytecodeMarker.class, args="invokevirtual")
     static void onInvokeVirtual() {
         nInvokeVirtual++;
     }
 
-    @Before(marker = BytecodeMarker.class, args="invokedynamic", scope=SCOPE)
+    @Before(marker = BytecodeMarker.class, args="invokedynamic")
     static void onInvokeDinamic() {
         nInvokeDynamic++;
     }
@@ -47,8 +45,7 @@ public class Instrumentation {
     @After(marker = BodyMarker.class, scope="ex2.MainThread.run")
     static void onThreadExit(DynamicContext dynamicContext) {
         if (dynamicContext.getThis() instanceof Thread) {
-            final String threadName = Thread.currentThread().getName();
-	        Profiler.registerThreadEnd(threadName);
+	        Profiler.registerThreadEnd(Thread.currentThread().getName());
         }
     }
 }

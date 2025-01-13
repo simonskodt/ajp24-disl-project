@@ -7,9 +7,7 @@ import ch.usi.dag.disl.staticcontext.MethodStaticContext;
 
 public class Instrumentation {
 
-    static final String MAIN_THREAD = "ex6.MainThread.*";
-
-    @Before(marker = BytecodeMarker.class, args="anewarray", scope=MAIN_THREAD)
+    @Before(marker = BytecodeMarker.class, args="anewarray", scope="ex6.MainThread.*")
     static void findStringArrLength(DynamicContext dynamicContext, MethodStaticContext methodStaticContext) {
         if (!methodStaticContext.thisMethodName().equals("init")) {
             return;
@@ -18,7 +16,7 @@ public class Instrumentation {
         Profiler.arrLength = dynamicContext.getStackValue(0, int.class);
     }
 
-    @Before(marker = BytecodeMarker.class, args="ireturn", scope=MAIN_THREAD)
+    @Before(marker = BytecodeMarker.class, args="ireturn", scope="ex6.MainThread.*")
     static void findBoolean(DynamicContext dynamicContext, MethodStaticContext methodStaticContext) {
         if (!methodStaticContext.thisMethodName().equals("foo")) {
             return;
@@ -27,6 +25,6 @@ public class Instrumentation {
         String uuid = dynamicContext.getMethodArgumentValue(0, String.class);
 
         int result = (int) dynamicContext.getStackValue(0, int.class);
-        Profiler.strTests.add(new Profiler.Tuple<String,Integer>(uuid, result));
+        Profiler.strTests.add(new Profiler.Tuple(uuid, result));
     }
 }

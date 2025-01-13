@@ -18,7 +18,6 @@ public class Instrumentation {
 
     @Before(marker = BytecodeMarker.class, args="getstatic, putstatic")
     static void onStaticFieldAccess(FieldAccessStaticContext fieldContext) {
-        String staticFieldName = fieldContext.getName();
-        Profiler.uniqueStaticFieldsAccessed.add(staticFieldName);
+        Profiler.uniqueStaticFieldsAccessed.add(fieldContext.getName());
     }
 }
