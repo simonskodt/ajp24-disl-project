@@ -6,7 +6,7 @@ import ch.usi.dag.disl.marker.BytecodeMarker;
 
 public class Instrumentation {
 
-    @AfterThrowing(marker = BytecodeMarker.class, args="athrow", scope="ex4.MainThread.*")
+    @AfterThrowing(marker = BytecodeMarker.class, args="athrow")
     static void throwException(DynamicContext dynamicContext) {
 
         Throwable athrow = dynamicContext.getException();

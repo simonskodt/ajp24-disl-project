@@ -11,8 +11,7 @@ import java.util.List;
  * is of type int[].
  */
 public class Profiler {
-    // The parameterValues and returnValues are assumed to be of
-    // the same length
+    // The parameterValues and returnValues are assumed to be of the same length
     public static List<Integer> parameterValues = new ArrayList<>();
     public static List<int[]> returnValues = new ArrayList<>(); 
 

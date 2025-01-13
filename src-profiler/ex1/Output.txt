@@ -1,3 +1,0 @@
-Reads from instance fields: 230835
-Writes to instance fields: 49391
-Unique static fields accessed: 267

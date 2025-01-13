@@ -7,9 +7,7 @@ import ch.usi.dag.disl.marker.BytecodeMarker;
 
 public class Instrumentation {
 
-    static final String MAIN_THREAD = "ex5.MainThread.*";
-
-    @Before(marker = BytecodeMarker.class, args="invokevirtual", scope=MAIN_THREAD)
+    @Before(marker = BytecodeMarker.class, args="invokevirtual", scope="ex5.MainThread.*")
     static void onFooInvokation(DynamicContext dynamicContext) {
         // Track all inputs passed to foo()
         // The 0th element is the top of the stack
@@ -17,7 +15,7 @@ public class Instrumentation {
         Profiler.parameterValues.add(parameterValue);
     }
 
-    @After(marker = BytecodeMarker.class, args="invokevirtual", scope=MAIN_THREAD)
+    @After(marker = BytecodeMarker.class, args="invokevirtual", scope="ex5.MainThread.*")
     static void onFooReturn(DynamicContext dynamicContext) {
         // Track all return values from calling foo()
         int[] returnValueArr = (int[]) dynamicContext.getStackValue(0, Object.class);

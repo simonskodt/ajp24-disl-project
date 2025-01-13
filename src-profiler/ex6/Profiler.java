@@ -8,16 +8,16 @@ import java.util.Map;
 public class Profiler {
 
     public static int arrLength;
-    public static List<Tuple<String, Integer>> strTests = new ArrayList<>();
+    public static List<Tuple> strTests = new ArrayList<>();
 
     public static Map<String, Integer> strTests2 = new HashMap<>();
 
-    public static class Tuple<X, Y> {
-        final X x; // string representation
-        final Y y; // results as a boolean value
-        public Tuple(X x, Y y) {
-            this.x = x;
-            this.y = y;
+    public static class Tuple {
+        final String uuid; 
+        final int result; 
+        public Tuple(String uuid, int result) {
+            this.uuid = uuid;
+            this.result = result;
         }
     }
 
@@ -30,8 +30,8 @@ public class Profiler {
         
         for (var tuple : strTests) {
             System.err.format("String: %s - Result: %s",
-                tuple.x,
-                tuple.y == 1 ? "Valid\n" : "Not valid\n"
+                tuple.uuid,
+                tuple.result == 1 ? "Valid\n" : "Not valid\n"
             );
         }
     }
