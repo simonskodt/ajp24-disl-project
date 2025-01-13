@@ -2,38 +2,15 @@ package ex7;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.lang.reflect.Array;
 
 
 public class Profiler {
 
-    private static ConcurrentHashMap<Tuple<String, Integer>, Integer> allocations = new ConcurrentHashMap<>();
-
-    public static class Tuple<X, Y> {
-        final X x;
-        final Y y;
-        public Tuple(X x, Y y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public int hashCode() {
-            return x.hashCode() ^ y.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof Tuple)) return false;
-            Tuple tuple = (Tuple) o;
-            return this.x.equals(tuple.x) && this.y.equals(tuple.y);
-        }
-
-        @Override
-        public String toString() {
-            return x + ", " + y;
-        }
-    }
+    private static ConcurrentHashMap<ArrayInfo, Integer> allocations = new ConcurrentHashMap<>();
 
     static {
         Runtime.getRuntime().addShutdownHook(new ShutdownThread());
@@ -42,30 +19,63 @@ public class Profiler {
     static class ShutdownThread extends Thread {
         public void run() {
             allocations.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey(new Comparator<Tuple<String, Integer>>() {
+                .sorted(Map.Entry.comparingByKey(new Comparator<ArrayInfo>(){
                     @Override
-                    public int compare(Tuple<String, Integer> o1, Tuple<String, Integer> o2) {
-                        int cmp = o1.x.compareTo(o2.x);
-                        if (cmp != 0) {
-                            return cmp;
+                    public int compare(ArrayInfo a1, ArrayInfo a2) {
+                        // (1) Compare by component name
+                        int componentComparison = a1.getComponent().compareTo(a2.getComponent());
+                        if (componentComparison != 0) {
+                            return componentComparison;
                         }
-                        return o1.y.compareTo(o2.y);
+
+                        // (2) Compare by number of dimensions (ascending)
+                        int dimensionsComparison = Integer.compare(a1.getDims().size(), a2.getDims().size());
+                        if (dimensionsComparison != 0) {
+                            return dimensionsComparison;
+                        }
+
+                        // (3) Compare by length of each dimension (ascending)
+                        for (int i = 0; i < Math.min(a1.getDims().size(), a2.getDims().size()); i++) {
+                            int dimensionComparison = Integer.compare(a1.getDims().get(i), a2.getDims().get(i));
+                            if (dimensionComparison != 0) {
+                                return dimensionComparison;
+                            }
+                        }
+
+                        // All comparisons are equal
+                        return 0;
                     }
                 }))
-                .forEach(entry -> {
-                    Tuple<String, Integer> key = entry.getKey();
-                    System.err.format("%s, %d: %d allocations\n", key.x, key.y, entry.getValue());
+                .forEach((Map.Entry<ArrayInfo, Integer> entry) -> {
+                    System.err.format("%s %d allocations\n", entry.getKey().toString(), entry.getValue());
                 });
         }
     }
 
     public static void registerArrayAllocation(String componentType, int length) {
-        Tuple<String, Integer> key = new Tuple<>(componentType, length);
+        ArrayInfo key = new ArrayInfo(componentType, length);
         allocations.putIfAbsent(key, 0);
         allocations.computeIfPresent(key, (k, v) -> v + 1);
     }
 
-    public static void registerThreadEnd() {
-        // No additional actions needed for thread end in this context
+    public static void registerArrayAllocation(String componentType, List<Integer> dims) {
+        ArrayInfo key = new ArrayInfo(componentType, dims);
+        allocations.putIfAbsent(key, 0);
+        allocations.computeIfPresent(key, (k, v) -> v + 1);
+    }
+
+    public static List<Integer> getArrayDimension(Object arr) {
+        List<Integer> dims = new ArrayList<>();
+        return getArrayDimensionRec(arr, dims, 0);
+    }
+
+    public static List<Integer> getArrayDimensionRec(Object arr, List<Integer> dims, int idx) {
+        if (arr == null || !arr.getClass().isArray() || idx >= 4) {
+            return dims;
+        }
+
+        dims.add(Array.getLength(arr));
+
+        return getArrayDimensionRec(Array.get(arr, 0), dims, idx+1);
     }
 }
